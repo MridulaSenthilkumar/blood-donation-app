@@ -123,7 +123,7 @@
                 <tbody>
                     <c:forEach items="${donor}" var="donor">
                         <tr>
-                            <td><input type="checkbox" name="selectedDonors" value="${donor.email}"></td>
+                            <td><input type="checkbox" name="selectedDonors" class="donorCheckbox" value="${donor.email}"></td>
                             <td>${donor.sno}</td>
                             <td>${donor.donorName}</td>
                             <td>${donor.address}</td>
@@ -163,12 +163,6 @@
                         <label for="emailMessage">Message</label>
                         <textarea class="form-control" id="emailMessage" name="emailMessage" rows="4" required></textarea>
                     </div>
-                    <div class="form-group">
-                        <label>Recipients:</label>
-                        <div id="recipientList">
-                            <!-- Dynamically generated donor checkboxes will be inserted here -->
-                        </div>
-                    </div>
                     <button type="submit" class="btn btn-primary">Send Email</button>
                 </form>
             </div>
@@ -183,4 +177,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-

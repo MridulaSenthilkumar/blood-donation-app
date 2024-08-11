@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Book Appointment</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -16,25 +17,40 @@
             color: #fff;
         }
         .container {
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.75);
+            padding: 40px;
             border-radius: 10px;
             max-width: 600px;
             margin-top: 50px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
         }
         h2 {
             text-align: center;
             margin-bottom: 30px;
+            font-family: 'Arial Black', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
         .form-group label {
             font-weight: bold;
+            color: #d9534f;
         }
         .form-control {
             border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+        }
+        .form-control:focus {
+            border: none;
+            box-shadow: 0 0 10px rgba(217, 83, 79, 0.6);
         }
         .btn-primary {
             background-color: #d9534f;
             border-color: #d9534f;
+            font-weight: bold;
+            padding: 10px;
+            font-size: 18px;
+            transition: all 0.3s ease;
         }
         .btn-primary:hover {
             background-color: #c9302c;
@@ -48,27 +64,27 @@
         <form action="BookAppointment" method="post">
             <div class="form-group">
                 <label for="name">Donor Name:</label>
-                <input type="text" id="name" name="name" class="form-control" required>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
             </div>
             
             <div class="form-group">
                 <label for="address">Address:</label>
-                <input type="text" id="address" name="address" class="form-control" required>
+                <input type="text" id="address" name="address" class="form-control" placeholder="Enter your address" required>
             </div>
             
             <div class="form-group">
                 <label for="bloodGroup">Blood Group:</label>
-                <input type="text" id="bloodGroup" name="bloodGroup" class="form-control" required>
+                <input type="text" id="bloodGroup" name="bloodGroup" class="form-control" placeholder="Enter your blood group" required>
             </div>
             
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" class="form-control" required>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
             </div>
             
             <div class="form-group">
                 <label for="phoneNumber">Phone Number:</label>
-                <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" required>
+                <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Enter your phone number" required>
             </div>
             
             <div class="form-group">

@@ -12,27 +12,56 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
-            padding-top: 20px;
+            background-color: #f2f2f2;
+            padding-top: 40px;
+            font-family: Arial, sans-serif;
         }
         .container {
             background-color: #ffffff;
             padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: auto;
         }
-        .table th, .table td {
+        h2 {
             text-align: center;
+            margin-bottom: 30px;
+            font-family: 'Arial Black', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #333;
+        }
+        .table {
+            margin-top: 20px;
+        }
+        .table th {
+            background-color: #d9534f;
+            color: #fff;
+            border: none;
+        }
+        .table td {
+            vertical-align: middle;
+            color: #555;
         }
         .btn-back {
             margin-top: 20px;
+            background-color: #d9534f;
+            border-color: #d9534f;
+            color: #fff;
+            font-weight: bold;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .btn-back:hover {
+            background-color: #c9302c;
+            border-color: #ac2925;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2 class="text-center mb-4">View Appointments</h2>
-        <table class="table table-striped table-bordered">
+        <h2>View Appointments</h2>
+        <table class="table table-striped table-hover">
             <thead class="thead-dark">
                 <tr>
                     <th>Donor Name</th>
@@ -63,7 +92,7 @@
                 %>
             </tbody>
         </table>
-        <a href="./DisplayDonor" class="btn btn-primary btn-back">Back to Home</a>
+        <a href="./DisplayDonor" class="btn btn-back btn-block">Back to Home</a>
     </div>
 
     <!-- Bootstrap JS and dependencies -->

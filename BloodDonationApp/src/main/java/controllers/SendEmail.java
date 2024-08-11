@@ -19,7 +19,7 @@ public class SendEmail extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String[] selectedDonors = request.getParameterValues("selectedDonors");
+        String[] selectedDonors = request.getParameter("selectedDonors").split(",");
         String emailSubject = request.getParameter("emailSubject");
         String emailMessage = request.getParameter("emailMessage");
 
@@ -53,14 +53,25 @@ public class SendEmail extends HttpServlet {
             }
         });
 
-        for (String recipient : recipients) {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(user));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            message.setSubject(subject);
-            message.setText(messageText);
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(user));
+        message.setSubject(subject);
+        message.setText(messageText);
 
+        for (String recipient : recipients) {
+            try {
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+            } catch (AddressException e) {
+                System.err.println("Invalid email address: " + recipient);
+                continue;
+            }
+        }
+
+        if (message.getAllRecipients() != null && message.getAllRecipients().length > 0) {
             Transport.send(message);
+            System.out.println("Emails sent successfully.");
+        } else {
+            System.err.println("No valid recipients found. No emails were sent.");
         }
     }
 }
