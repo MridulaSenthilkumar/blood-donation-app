@@ -31,7 +31,7 @@ public class AdminLogin extends HttpServlet {
                 System.out.println("Admin login successful");
                 HttpSession session = request.getSession();
                 session.setAttribute("userType", "admin");
-                response.sendRedirect("./DisplayDonor");
+                response.sendRedirect("home.html");
             } else {
                 System.err.println("Password verification failed");
                 response.sendRedirect("./index.jsp?error=invalid");

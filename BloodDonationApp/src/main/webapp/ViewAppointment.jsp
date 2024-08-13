@@ -92,7 +92,7 @@
                 %>
             </tbody>
         </table>
-        <a href="./DisplayDonor" class="btn btn-back btn-block">Back to Home</a>
+        <a href="home.html" class="btn btn-back btn-block">Back to Home</a>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
