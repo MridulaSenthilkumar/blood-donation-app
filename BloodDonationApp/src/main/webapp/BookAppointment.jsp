@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Appointment</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -62,6 +62,14 @@
     <div class="container">
         <h2>Book Appointment</h2>
         <form action="BookAppointment" method="post">
+            <div class="form-group">
+                <label for="donationType">Type of Donation:</label>
+                <select id="donationType" name="donationType" class="form-control" required>
+                    <option value="blood">Blood Donation</option>
+                    <option value="plasma">Plasma Donation</option>
+                </select>
+            </div>
+            
             <div class="form-group">
                 <label for="name">Donor Name:</label>
                 <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>

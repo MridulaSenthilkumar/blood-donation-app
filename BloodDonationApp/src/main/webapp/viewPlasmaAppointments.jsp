@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Appointments</title>
+    <title>View Plasma Donation Appointments</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -60,7 +60,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>View Appointments</h2>
+        <h2>Plasma Donation Appointments</h2>
         <table class="table table-striped table-hover">
             <thead class="thead-dark">
                 <tr>
@@ -75,7 +75,7 @@
             <tbody>
                 <%
                     DonorDAO dao = new DonorDAO();
-                    ArrayList<Appointment> appointments = dao.getAppointmentsSortedByDate();
+                    ArrayList<Appointment> appointments = dao.getPlasmaDonationAppointmentsSortedByDate();
 
                     for (Appointment app : appointments) {
                 %>
@@ -92,7 +92,7 @@
                 %>
             </tbody>
         </table>
-        <a href="home.html" class="btn btn-back btn-block">Back to Home</a>
+        <a href="viewAppointmentsOptions.html" class="btn btn-back btn-block">Back to Options</a>
     </div>
 
     <!-- Bootstrap JS and dependencies -->

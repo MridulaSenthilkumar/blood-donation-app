@@ -132,14 +132,32 @@ public class DonorDAO {
             e.printStackTrace();
         }
     }
+    
+    public void saveplasmaAppointment(Appointment appointment) {
+        String query = "INSERT INTO plasmadonation (donorName, address, bloodGroup, email, phoneNumber, appointmentDate) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-    public ArrayList<Appointment> getAppointmentsSortedByDate() {
+            pstmt.setString(1, appointment.getDonorName());
+            pstmt.setString(2, appointment.getAddress());
+            pstmt.setString(3, appointment.getBloodgrp());
+            pstmt.setString(4, appointment.getEmail());
+            pstmt.setString(5, appointment.getPhoneNumber());
+            pstmt.setString(6, appointment.getAppointmentDate());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<Appointment> getBloodDonationAppointmentsSortedByDate() {
         ArrayList<Appointment> appointments = new ArrayList<>();
         String query = "SELECT * FROM appointments ORDER BY appointmentDate";
+        
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
-
+            
             while (rs.next()) {
                 Appointment appointment = new Appointment();
                 appointment.setDonorName(rs.getString("donorName"));
@@ -148,12 +166,40 @@ public class DonorDAO {
                 appointment.setEmail(rs.getString("email"));
                 appointment.setPhoneNumber(rs.getString("phoneNumber"));
                 appointment.setAppointmentDate(rs.getString("appointmentDate"));
+                
                 appointments.add(appointment);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
         return appointments;
     }
+    public ArrayList<Appointment> getPlasmaDonationAppointmentsSortedByDate() {
+        ArrayList<Appointment> plasmaAppointments = new ArrayList<>();
+        String query = "SELECT * FROM plasmadonation ORDER BY appointmentDate";
+        
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            
+            while (rs.next()) {
+                Appointment appointment = new Appointment();
+                appointment.setDonorName(rs.getString("donorName"));
+                appointment.setAddress(rs.getString("address"));
+                appointment.setBloodgrp(rs.getString("bloodGroup"));
+                appointment.setEmail(rs.getString("email"));
+                appointment.setPhoneNumber(rs.getString("phoneNumber"));
+                appointment.setAppointmentDate(rs.getString("appointmentDate"));
+                
+                plasmaAppointments.add(appointment);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return plasmaAppointments;
+    }
+
 
 }

@@ -5,113 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blood Donation Information</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: url('https://media.wired.com/photos/5926eed2cefba457b079b9ac/master/w_2560%2Cc_limit/STORY-155149909-grey.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #ffffff;
-            padding: 20px;
-        }
-        .navbar {
-            margin-bottom: 20px;
-        }
-        .navbar-nav .nav-item .nav-link {
-            color: #ffffff;
-        }
-        .navbar-nav .nav-item .nav-link:hover {
-            color: #d9534f;
-        }
-        .navbar-brand {
-            color: #d9534f;
-            font-weight: bold;
-        }
-        .search-bar {
-            max-width: 300px;
-        }
-        .info-section {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 30px;
-            border-radius: 12px;
-            background: rgba(0, 0, 0, 0.5);
-            text-align: center;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
-        .info-section h2, .info-section h3 {
-            color: #d9534f;
-            font-weight: 600;
-        }
-        .book-btn {
-            background-color: #d9534f;
-            color: #fff;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-        .book-btn:hover {
-            background-color: #c9302c;
-            transform: scale(1.05);
-        }
-        .navbar-right {
-            display: flex;
-            align-items: center;
-            margin-left: auto;
-        }
-        .search-form {
-            display: flex;
-            align-items: center;
-        }
-        .navbar-right .btn {
-            margin-left: 10px;
-        }
-    </style>
+    <link href="style.css" rel="stylesheet">
+    <script src="chatbot.js"></script>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="peoplelogin.jsp">Blood Donation</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="peoplelogin.jsp">Home</a>
-                </li>
-                <!-- Dropdown for Plasma -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Plasma
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="whatIsPlasma.jsp">What is Plasma?</a>
-                        <a class="dropdown-item" href="whyDonatePlasma.jsp">Why to donate Plasma?</a>
-                        <a class="dropdown-item" href="whoCanDonatePlasma.jsp">Who Can Donate Plasma?</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Why give blood</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Who can give blood</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Where to donate</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">News and campaigns</a>
-                </li>
-            </ul>
-            <div class="navbar-right">
-                <!-- Search Bar and Button Container -->
-                <form class="form-inline search-form">
-                    <input class="form-control mr-sm-2 search-bar" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-                <!-- Book Appointment Button -->
-                <button class="btn btn-primary book-btn" onclick="window.location.href='BookAppointment.jsp'">Book Appointment</button>
-            </div>
-        </div>
-    </nav>
-
+    <%@ include file="nav.jsp" %>
     <!-- Main Content -->
     <div class="container">
         <div class="info-section">
