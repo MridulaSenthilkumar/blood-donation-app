@@ -43,7 +43,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Live beyond your life</a>
+                <a class="nav-link" href="liveBeyondLife.jsp">Live beyond your life</a>
             </li>
         </ul>
 

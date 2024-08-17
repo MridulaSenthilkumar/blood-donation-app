@@ -201,3 +201,72 @@ body {
 .search-bar {
     max-width: 200px; /* Adjusted width to fit better */
 }
+
+.sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            color: #fff;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+        /* Main content styles */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .custom-table {
+            margin-bottom: 20px;
+        }
+
+        .form-inline {
+            margin-bottom: 20px;
+        }
+        
+        /* Main content styles */
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+* Container for charts to center them */
+.chart-container-wrapper {
+    width: 200px; /* Fixed width for the charts */
+    margin: 0 auto; /* Center horizontally */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between charts */
+}
+
+/* Individual chart container */
+.chart-container {
+    position: relative;
+    height: 250px; /* Height of the charts */
+    width: 80%; /* Full width of the container */
+    background: #fff; /* Background color to contrast chart */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    padding: 15px; /* Padding around the chart */
+}
+
+/* Optional: If you want more space between top and bottom charts */
+.top-chart {
+    margin-bottom: 50px; /* Space between top and bottom charts */
+}
+

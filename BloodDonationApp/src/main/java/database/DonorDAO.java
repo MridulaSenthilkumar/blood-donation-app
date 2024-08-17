@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import model.Appointment;
 import model.Donor;
+import model.OrganRegistration;
 
 public class DonorDAO {
     private String user = "senthilm";
@@ -149,6 +150,23 @@ public class DonorDAO {
             e.printStackTrace();
         }
     }
+    
+    public void saveplateletAppointment(Appointment appointment) {
+        String query = "INSERT INTO plateletdonation (donorName, address, bloodGroup, email, phoneNumber, appointmentDate) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, appointment.getDonorName());
+            pstmt.setString(2, appointment.getAddress());
+            pstmt.setString(3, appointment.getBloodgrp());
+            pstmt.setString(4, appointment.getEmail());
+            pstmt.setString(5, appointment.getPhoneNumber());
+            pstmt.setString(6, appointment.getAppointmentDate());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public ArrayList<Appointment> getBloodDonationAppointmentsSortedByDate() {
         ArrayList<Appointment> appointments = new ArrayList<>();
@@ -200,6 +218,153 @@ public class DonorDAO {
         
         return plasmaAppointments;
     }
+    
+    public ArrayList<Appointment> getPlateletAppointmentsSortedByDate() {
+        ArrayList<Appointment> plateletappointments = new ArrayList<>();
+        String query = "SELECT * FROM plateletdonation ORDER BY appointmentDate";
+        
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            
+            while (rs.next()) {
+                Appointment appointment = new Appointment();
+                appointment.setDonorName(rs.getString("donorName"));
+                appointment.setAddress(rs.getString("address"));
+                appointment.setBloodgrp(rs.getString("bloodGroup"));
+                appointment.setEmail(rs.getString("email"));
+                appointment.setPhoneNumber(rs.getString("phoneNumber"));
+                appointment.setAppointmentDate(rs.getString("appointmentDate"));
+                
+                plateletappointments.add(appointment);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return plateletappointments;
+    }
 
 
+    public boolean insertOrganRegistration(OrganRegistration registration) {
+        String query = "INSERT INTO organdonation (donorName, address, email, phoneNumber, donationChoice) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, registration.getDonorName());
+            pstmt.setString(2, registration.getAddress());
+            pstmt.setString(3, registration.getEmail());
+            pstmt.setString(4, registration.getPhoneNumber());
+            pstmt.setString(5, registration.getDonationChoice()); // All organs or some organs
+
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public ArrayList<OrganRegistration> getAllOrganRegistrations() {
+        ArrayList<OrganRegistration> organRegistrations = new ArrayList<>();
+        String query = "SELECT * FROM organdonation";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                OrganRegistration registration = new OrganRegistration();
+                registration.setDonorName(rs.getString("donorName"));
+                registration.setAddress(rs.getString("address"));
+                registration.setEmail(rs.getString("email"));
+                registration.setPhoneNumber(rs.getString("phoneNumber"));
+                registration.setDonationChoice(rs.getString("donationChoice"));
+
+                organRegistrations.add(registration);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return organRegistrations;
+    }
+
+
+    public int getBloodDonationCount() {
+        String query = "SELECT COUNT(*) AS count FROM appointments";
+        System.out.println("Executing query: " + query);
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                System.out.println("Blood Donation Count fetched from DB: " + count);
+                return count;
+            } else {
+                System.out.println("No data found for Blood Donation Count.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching blood donation count: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    public int getPlasmaDonationCount() {
+        String query = "SELECT COUNT(*) AS count FROM plasmadonation";
+        System.out.println("Executing query: " + query);
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                System.out.println("Plasma Donation Count fetched from DB: " + count);
+                return count;
+            } else {
+                System.out.println("No data found for Plasma Donation Count.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching plasma donation count: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    public int getPlateletDonationCount() {
+        String query = "SELECT COUNT(*) AS count FROM plateletdonation";
+        System.out.println("Executing query: " + query);
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                System.out.println("Platelet Donation Count fetched from DB: " + count);
+                return count;
+            } else {
+                System.out.println("No data found for Platelet Donation Count.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching platelet donation count: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    public int getOrganDonationCount() {
+        String query = "SELECT COUNT(*) AS count FROM organdonation";
+        System.out.println("Executing query: " + query);
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                System.out.println("Organ Donation Count fetched from DB: " + count);
+                return count;
+            } else {
+                System.out.println("No data found for Organ Donation Count.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching organ donation count: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    
 }

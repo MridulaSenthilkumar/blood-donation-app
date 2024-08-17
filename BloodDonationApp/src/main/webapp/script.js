@@ -1,21 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const searchForm = document.getElementById('searchForm');
+    const filterBloodGroup = document.getElementById('filterBloodGroup');
+    const editDonorForm = document.getElementById('editDonorForm');
+    const emailForm = $('#emailForm');
+    
+    // Fetch donors on load
     fetchDonors();
 
-    document.getElementById('searchForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-        const searchTerm = document.getElementById('searchInput').value;
-        fetchDonors(searchTerm);
-    });
-
-    document.getElementById('filterBloodGroup').addEventListener('change', function () {
-        const selectedBloodGroup = this.value;
-        fetchDonors('', selectedBloodGroup);
-    });
-
-    document.getElementById('editDonorForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-        updateDonor();
-    });
+    // Attach event listeners
+    searchForm.addEventListener('submit', handleSearch);
+    filterBloodGroup.addEventListener('change', handleFilterBloodGroup);
+    editDonorForm.addEventListener('submit', updateDonor);
+    emailForm.on('submit', sendEmails);
 });
 
 function getCompatibleBloodGroups(bloodGroup) {
@@ -34,39 +30,53 @@ function getCompatibleBloodGroups(bloodGroup) {
 }
 
 function fetchDonors(searchTerm = '', bloodGroup = '') {
-    let url = '/Blood/donorAPI';
-    if (searchTerm || bloodGroup) {
-        url += `?search=${searchTerm}`;
-    }
+    let url = `/Blood/donorAPI?${new URLSearchParams({ search: searchTerm, bloodGroup })}`;
 
     fetch(url)
         .then(response => response.json())
         .then(donors => {
-            const compatibleBloodGroups = getCompatibleBloodGroups(bloodGroup);
-            const tableBody = document.getElementById('donorsTableBody');
-            tableBody.innerHTML = '';
-
-            donors = bloodGroup ? donors.filter(donor => compatibleBloodGroups.includes(donor.bloodgrp)) : donors;
-
-            donors.forEach(donor => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><input type="checkbox" name="selectedDonors" class="donorCheckbox" value="${donor.email}"></td>
-                    <td>${donor.sno}</td>
-                    <td>${donor.donorName}</td>
-                    <td>${donor.address}</td>
-                    <td>${donor.bloodgrp}</td>
-                    <td>${donor.email}</td>
-                    <td>${donor.phoneNumber}</td>
-                    <td>
-                        <button class="btn btn-sm btn-primary" onclick="openEditModal(${donor.sno})">Edit</button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteDonor(${donor.sno})">Delete</button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
+            renderDonors(donors, bloodGroup);
         })
         .catch(error => console.error('Error fetching donors:', error));
+}
+
+function renderDonors(donors, bloodGroup) {
+    const tableBody = document.getElementById('donorsTableBody');
+    tableBody.innerHTML = '';
+
+    if (bloodGroup) {
+        const compatibleBloodGroups = getCompatibleBloodGroups(bloodGroup);
+        donors = donors.filter(donor => compatibleBloodGroups.includes(donor.bloodgrp));
+    }
+
+    const donorRows = donors.map(donor => `
+        <tr>
+            <td><input type="checkbox" name="selectedDonors" class="donorCheckbox" value="${donor.email}"></td>
+            <td>${donor.sno}</td>
+            <td>${donor.donorName}</td>
+            <td>${donor.address}</td>
+            <td>${donor.bloodgrp}</td>
+            <td>${donor.email}</td>
+            <td>${donor.phoneNumber}</td>
+            <td>
+                <button class="btn btn-sm btn-primary" onclick="openEditModal(${donor.sno})">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="deleteDonor(${donor.sno})">Delete</button>
+            </td>
+        </tr>
+    `).join('');
+
+    tableBody.innerHTML = donorRows;
+}
+
+function handleSearch(event) {
+    event.preventDefault();
+    const searchTerm = document.getElementById('searchInput').value;
+    fetchDonors(searchTerm);
+}
+
+function handleFilterBloodGroup() {
+    const selectedBloodGroup = this.value;
+    fetchDonors('', selectedBloodGroup);
 }
 
 function openEditModal(sno) {
@@ -85,8 +95,9 @@ function openEditModal(sno) {
         .catch(error => console.error('Error fetching donor details:', error));
 }
 
-function updateDonor() {
-    const sno = document.getElementById('editDonorForm').dataset.sno;
+function updateDonor(event) {
+    event.preventDefault();
+    const sno = this.dataset.sno;
     const donorData = {
         donorName: document.getElementById('editDonorName').value,
         address: document.getElementById('editDonorAddress').value,
@@ -122,22 +133,20 @@ function deleteDonor(sno) {
     }
 }
 
-// Send Email form submission
-$('#emailForm').on('submit', function (e) {
-    e.preventDefault();
+function sendEmails(event) {
+    event.preventDefault();
 
-    var selectedDonors = [];
-    $('.donorCheckbox:checked').each(function () {
-        selectedDonors.push($(this).val());
-    });
+    const selectedDonors = $('.donorCheckbox:checked').map(function () {
+        return this.value;
+    }).get();
 
     if (selectedDonors.length === 0) {
         alert("Please select at least one donor to send an email.");
         return;
     }
 
-    var emailSubject = $('#emailSubject').val();
-    var emailMessage = $('#emailMessage').val();
+    const emailSubject = $('#emailSubject').val();
+    const emailMessage = $('#emailMessage').val();
 
     $.ajax({
         type: 'POST',
@@ -155,4 +164,143 @@ $('#emailForm').on('submit', function (e) {
             alert("An error occurred: " + error);
         }
     });
-});
+}
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fetch data from the backend
+        function fetchChartData() {
+            fetch('./Counts')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Debugging to ensure correct data format
+
+                    // Initialize line chart
+                    new Chart(document.getElementById('lineChart').getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], // Example weeks
+                            datasets: [{
+                                label: 'Counts',
+                                data: [data.bloodDonationCount, data.plasmaDonationCount, data.plateletDonationCount, data.organDonationCount],
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderWidth: 2,
+                                pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                                pointBorderColor: '#fff',
+                                pointBorderWidth: 2,
+                                pointRadius: 5
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                    labels: {
+                                        color: '#333',
+                                        font: {
+                                            size: 14
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.label || '';
+                                            if (context.parsed !== null) {
+                                                label += ': ' + context.parsed + ' appointments';
+                                            }
+                                            return label;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    ticks: {
+                                        color: '#333',
+                                        font: {
+                                            size: 12
+                                        }
+                                    },
+                                    grid: {
+                                        color: '#eee'
+                                    }
+                                },
+                                y: {
+                                    ticks: {
+                                        color: '#333',
+                                        font: {
+                                            size: 12
+                                        }
+                                    },
+                                    grid: {
+                                        color: '#eee'
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    // Initialize pie chart
+                    new Chart(document.getElementById('pieChart').getContext('2d'), {
+                        type: 'pie',
+                        data: {
+                            labels: ['Blood Donation', 'Plasma Donation', 'Platelet Donation', 'Organ Donation'],
+                            datasets: [{
+                                label: 'Donation Types',
+                                data: [
+                                    data.bloodDonationCount,
+                                    data.plasmaDonationCount,
+                                    data.plateletDonationCount,
+                                    data.organDonationCount
+                                ],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.8)',
+                                    'rgba(54, 162, 235, 0.8)',
+                                    'rgba(255, 206, 86, 0.8)',
+                                    'rgba(75, 192, 192, 0.8)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)'
+                                ],
+                                borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                    labels: {
+                                        color: '#333',
+                                        font: {
+                                            size: 14
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.label || '';
+                                            if (context.parsed !== null) {
+                                                label += ': ' + context.parsed + ' appointments';
+                                            }
+                                            return label;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        // Call function to fetch and initialize charts
+        fetchChartData();
+    });
