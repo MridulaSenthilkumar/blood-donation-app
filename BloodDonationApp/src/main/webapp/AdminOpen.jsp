@@ -10,14 +10,30 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark">
+        <h1 class="navbar-brand mb-0">Welcome to Manchester Blood Donation</h1>
+        <div class="navbar-nav ml-auto">
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user-circle"></i> Welcome Admin
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="index.jsp">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
     <div class="sidebar">
         <a href="home.html" id="viewGraphs">View Donors</a>
-        <a href="viewAppointmentsOptions.html">View Appointments</a>
+        <a href="viewBloodAppointments.jsp">Blood Donation Appointments</a>
+        <a href="viewPlasmaAppointments.jsp">Plasma Donation Appointments</a>
+        <a href="viewPlateletApp.jsp">Platelet Donation Appointment</a>
+        <a href="organdonation.jsp">Organ Donation Registrations</a>   
     </div>
 
     <div class="main-content">
         <div id="initialSection">
-            <h1 class="mt-5 mb-4">Welcome to Manchester Blood Donation</h1>
             <div id="graphsSection">
                 <h2>Bookings and Registrations for This Month</h2>
                 <div class="top-chart">
@@ -35,5 +51,9 @@
     </div>
 
     <script src="script.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

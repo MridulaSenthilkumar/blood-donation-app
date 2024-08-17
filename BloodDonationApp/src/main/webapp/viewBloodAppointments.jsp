@@ -92,7 +92,7 @@
                 %>
             </tbody>
         </table>
-        <a href="viewAppointmentsOptions.html" class="btn btn-back btn-block">Back to Options</a>
+        <a href="AdminOpen.jsp" class="btn btn-back btn-block">Back to Options</a>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
