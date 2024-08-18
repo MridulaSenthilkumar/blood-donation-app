@@ -1,5 +1,5 @@
 <!-- First Navbar: Blood Donation Title Only -->
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light" style="background-color: rgba(211, 211, 211, 0.5);">
     <a class="navbar-brand" href="peoplelogin.jsp">Blood Donation</a>
 </nav>
 

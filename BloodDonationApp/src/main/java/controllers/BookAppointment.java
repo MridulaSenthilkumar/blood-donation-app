@@ -10,6 +10,7 @@ import database.DonorDAO;
 @WebServlet("/BookAppointment")
 public class BookAppointment extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String donationType = request.getParameter("donationType");
         String name = request.getParameter("name");
         String address = request.getParameter("address");
         String bloodGroup = request.getParameter("bloodGroup");
@@ -26,7 +27,15 @@ public class BookAppointment extends HttpServlet {
         appointment.setAppointmentDate(appointmentDate);
 
         DonorDAO dao = new DonorDAO();
-        dao.saveAppointment(appointment);
+
+        if ("blood".equals(donationType)) {
+            dao.saveAppointment(appointment); // Save to blood donation table
+        } else if ("plasma".equals(donationType)) {
+            dao.saveplasmaAppointment(appointment); // Save to plasma donation table
+        }
+        else if ("platelet".equals(donationType)) {
+            dao.saveplateletAppointment(appointment); 
+        }
 
         response.sendRedirect("Confirmation.jsp");
     }

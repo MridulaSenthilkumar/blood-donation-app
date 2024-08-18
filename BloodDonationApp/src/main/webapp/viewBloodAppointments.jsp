@@ -13,6 +13,8 @@
     <style>
         body {
             background-color: #f2f2f2;
+            background: url('https://media.wired.com/photos/5926eed2cefba457b079b9ac/master/w_2560%2Cc_limit/STORY-155149909-grey.jpg') no-repeat center center fixed;
+            background-size: cover;
             padding-top: 40px;
             font-family: Arial, sans-serif;
         }

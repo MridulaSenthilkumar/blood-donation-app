@@ -67,6 +67,7 @@
                 <select id="donationType" name="donationType" class="form-control" required>
                     <option value="blood">Blood Donation</option>
                     <option value="plasma">Plasma Donation</option>
+                    <option value="platelet">Platelet Donation</option>
                 </select>
             </div>
             
