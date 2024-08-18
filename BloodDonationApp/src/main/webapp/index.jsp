@@ -117,7 +117,6 @@
 
     </style>
 
-    <!-- Include Auth0 Lock script -->
     <script src="https://cdn.auth0.com/js/lock/11.34/lock.min.js"></script>
     <script>
         var lock;
@@ -144,7 +143,7 @@
         function login() {
             if (lock) {
                 console.log('Showing Auth0 Lock widget...');
-                lock.show(); // This triggers the Auth0 Lock widget
+                lock.show(); 
             } else {
                 console.error('Auth0 Lock is not initialized.');
             }
@@ -208,12 +207,12 @@
     </div>
 </div>
 
-<!-- Bootstrap JS and other scripts -->
+
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-<!-- Call handleAuthentication function after DOM load -->
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         handleAuthentication();
