@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const filterBloodGroup = document.getElementById('filterBloodGroup');
     const editDonorForm = document.getElementById('editDonorForm');
     const emailForm = $('#emailForm');
+    const addDonorForm = document.getElementById('addDonorForm');
     
     // Fetch donors on load
     fetchDonors();
@@ -12,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     filterBloodGroup.addEventListener('change', handleFilterBloodGroup);
     editDonorForm.addEventListener('submit', updateDonor);
     emailForm.on('submit', sendEmails);
+    addDonorForm.addEventListener('submit', addDonor);
 });
 
 function getCompatibleBloodGroups(bloodGroup) {
@@ -29,25 +31,24 @@ function getCompatibleBloodGroups(bloodGroup) {
     return compatibility[bloodGroup] || [];
 }
 
-function fetchDonors(searchTerm = '', bloodGroup = '') {
-    let url = `/Blood/donorAPI?${new URLSearchParams({ search: searchTerm, bloodGroup })}`;
+function fetchDonors(searchTerm = '', selectedBloodGroup = '') {
+    let url = `/Blood/donorAPI?${new URLSearchParams({ search: searchTerm })}`;
 
     fetch(url)
         .then(response => response.json())
         .then(donors => {
-            renderDonors(donors, bloodGroup);
+            if (selectedBloodGroup) {
+                const compatibleBloodGroups = getCompatibleBloodGroups(selectedBloodGroup);
+                donors = donors.filter(donor => compatibleBloodGroups.includes(donor.bloodgrp));
+            }
+            renderDonors(donors);
         })
         .catch(error => console.error('Error fetching donors:', error));
 }
 
-function renderDonors(donors, bloodGroup) {
+function renderDonors(donors) {
     const tableBody = document.getElementById('donorsTableBody');
     tableBody.innerHTML = '';
-
-    if (bloodGroup) {
-        const compatibleBloodGroups = getCompatibleBloodGroups(bloodGroup);
-        donors = donors.filter(donor => compatibleBloodGroups.includes(donor.bloodgrp));
-    }
 
     const donorRows = donors.map(donor => `
         <tr>
@@ -71,7 +72,7 @@ function renderDonors(donors, bloodGroup) {
 function handleSearch(event) {
     event.preventDefault();
     const searchTerm = document.getElementById('searchInput').value;
-    fetchDonors(searchTerm);
+    fetchDonors(searchTerm, filterBloodGroup.value);
 }
 
 function handleFilterBloodGroup() {
@@ -166,141 +167,165 @@ function sendEmails(event) {
     });
 }
 
+function addDonor(event) {
+    event.preventDefault();
 
-    document.addEventListener('DOMContentLoaded', function() {
-        // Fetch data from the backend
-        function fetchChartData() {
-            fetch('./Counts')
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data); // Debugging to ensure correct data format
+    const donorData = {
+        donorName: document.getElementById('donorName').value,
+        address: document.getElementById('donorAddress').value,
+        bloodgrp: document.getElementById('donorBloodGroup').value,
+        email: document.getElementById('donorEmail').value,
+        phoneNumber: document.getElementById('donorPhoneNumber').value
+    };
 
-                    // Initialize line chart
-                    new Chart(document.getElementById('lineChart').getContext('2d'), {
-                        type: 'line',
-                        data: {
-                            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], // Example weeks
-                            datasets: [{
-                                label: 'Counts',
-                                data: [data.bloodDonationCount, data.plasmaDonationCount, data.plateletDonationCount, data.organDonationCount],
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                borderWidth: 2,
-                                pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-                                pointBorderColor: '#fff',
-                                pointBorderWidth: 2,
-                                pointRadius: 5
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    position: 'top',
-                                    labels: {
-                                        color: '#333',
-                                        font: {
-                                            size: 14
-                                        }
-                                    }
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            let label = context.label || '';
-                                            if (context.parsed !== null) {
-                                                label += ': ' + context.parsed + ' appointments';
-                                            }
-                                            return label;
-                                        }
+    fetch('/Blood/donorAPI', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(donorData)
+    }).then(response => {
+        if (response.ok) {
+            $('#addDonorModal').modal('hide');
+            fetchDonors();
+        } else {
+            console.error('Error adding donor');
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch data from the backend
+    function fetchChartData() {
+        fetch('./Counts')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Debugging to ensure correct data format
+
+                // Initialize line chart
+                new Chart(document.getElementById('lineChart').getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], // Example weeks
+                        datasets: [{
+                            label: 'Counts',
+                            data: [data.bloodDonationCount, data.plasmaDonationCount, data.plateletDonationCount, data.organDonationCount],
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderWidth: 2,
+                            pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    color: '#333',
+                                    font: {
+                                        size: 14
                                     }
                                 }
                             },
-                            scales: {
-                                x: {
-                                    ticks: {
-                                        color: '#333',
-                                        font: {
-                                            size: 12
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (context.parsed !== null) {
+                                            label += ': ' + context.parsed + ' appointments';
                                         }
-                                    },
-                                    grid: {
-                                        color: '#eee'
-                                    }
-                                },
-                                y: {
-                                    ticks: {
-                                        color: '#333',
-                                        font: {
-                                            size: 12
-                                        }
-                                    },
-                                    grid: {
-                                        color: '#eee'
+                                        return label;
                                     }
                                 }
                             }
-                        }
-                    });
-
-                    // Initialize pie chart
-                    new Chart(document.getElementById('pieChart').getContext('2d'), {
-                        type: 'pie',
-                        data: {
-                            labels: ['Blood Donation', 'Plasma Donation', 'Platelet Donation', 'Organ Donation'],
-                            datasets: [{
-                                label: 'Donation Types',
-                                data: [
-                                    data.bloodDonationCount,
-                                    data.plasmaDonationCount,
-                                    data.plateletDonationCount,
-                                    data.organDonationCount
-                                ],
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.8)',
-                                    'rgba(54, 162, 235, 0.8)',
-                                    'rgba(255, 206, 86, 0.8)',
-                                    'rgba(75, 192, 192, 0.8)'
-                                ],
-                                borderColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)'
-                                ],
-                                borderWidth: 2
-                            }]
                         },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    position: 'top',
-                                    labels: {
-                                        color: '#333',
-                                        font: {
-                                            size: 14
-                                        }
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: '#333',
+                                    font: {
+                                        size: 12
                                     }
                                 },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            let label = context.label || '';
-                                            if (context.parsed !== null) {
-                                                label += ': ' + context.parsed + ' appointments';
-                                            }
-                                            return label;
+                                grid: {
+                                    color: '#eee'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: '#333',
+                                    font: {
+                                        size: 12
+                                    }
+                                },
+                                grid: {
+                                    color: '#eee'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Initialize pie chart
+                new Chart(document.getElementById('pieChart').getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: ['Blood Donation', 'Plasma Donation', 'Platelet Donation', 'Organ Donation'],
+                        datasets: [{
+                            label: 'Donation Types',
+                            data: [
+                                data.bloodDonationCount,
+                                data.plasmaDonationCount,
+                                data.plateletDonationCount,
+                                data.organDonationCount
+                            ],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.8)',
+                                'rgba(54, 162, 235, 0.8)',
+                                'rgba(255, 206, 86, 0.8)',
+                                'rgba(75, 192, 192, 0.8)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)'
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    color: '#333',
+                                    font: {
+                                        size: 14
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (context.parsed !== null) {
+                                            label += ': ' + context.parsed + ' appointments';
                                         }
+                                        return label;
                                     }
                                 }
                             }
                         }
-                    });
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
 
-        // Call function to fetch and initialize charts
-        fetchChartData();
-    });
+    // Call function to fetch and initialize charts
+    fetchChartData();
+});
