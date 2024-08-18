@@ -20,7 +20,6 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownBlood">
                     <a class="dropdown-item" href="whyDonateBlood.jsp">Why Donate Blood?</a>
                     <a class="dropdown-item" href="bloodTypes.jsp">Blood Types</a>
-                    <a class="dropdown-item" href="whoCanYouHelp.jsp">Who You Could Help?</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -30,7 +29,6 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownPlasma">
                     <a class="dropdown-item" href="whatIsPlasma.jsp">What is Plasma?</a>
                     <a class="dropdown-item" href="whyDonatePlasma.jsp">Why Donate Plasma?</a>
-                    <a class="dropdown-item" href="whoCanDonatePlasma.jsp">Who Can Donate Plasma?</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -39,7 +37,6 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownPlatelet">
                     <a class="dropdown-item" href="whatIsPlatelet.jsp">What is Platelet?</a>
-                    <a class="dropdown-item" href="whoCanDonatePlatelet.jsp">Who Can Donate Platelet?</a>
                 </div>
             </li>
             <li class="nav-item">
