@@ -26,10 +26,10 @@
     </nav>
     <div class="sidebar">
         <a href="home.html" id="viewGraphs">View Donors</a>
-        <a href="viewBloodAppointments.jsp">Blood Donation Appointments</a>
-        <a href="viewPlasmaAppointments.jsp">Plasma Donation Appointments</a>
-        <a href="viewplateletApp.jsp">Platelet Donation Appointment</a>
-        <a href="organdonation.jsp">Organ Donation Registrations</a>   
+        <a href="viewBlooddonationAppointments.jsp">Blood Donation Appointments</a>
+        <a href="viewPlasmadonationAppointments.jsp">Plasma Donation Appointments</a>
+        <a href="viewPlateletdonationAppointment.jsp">Platelet Donation Appointment</a>
+        <a href="viewOrgandonationAppointments.jsp">Organ Donation Registrations</a>   
     </div>
 
     <div class="main-content">
