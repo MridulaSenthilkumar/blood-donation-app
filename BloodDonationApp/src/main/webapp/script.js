@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchForm = document.getElementById('searchForm');
     const filterBloodGroup = document.getElementById('filterBloodGroup');
     const editDonorForm = document.getElementById('editDonorForm');
-    const emailForm = $('#emailForm');
+    const emailForm = document.getElementById('emailForm'); // jQuery reference removed
     const addDonorForm = document.getElementById('addDonorForm');
     
     // Fetch donors on load
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     searchForm.addEventListener('submit', handleSearch);
     filterBloodGroup.addEventListener('change', handleFilterBloodGroup);
     editDonorForm.addEventListener('submit', updateDonor);
-    emailForm.on('submit', sendEmails);
+    emailForm.addEventListener('submit', sendEmails); // jQuery reference removed
     addDonorForm.addEventListener('submit', addDonor);
 });
 
@@ -91,7 +91,7 @@ function openEditModal(sno) {
             document.getElementById('editDonorPhoneNumber').value = donor.phoneNumber;
             document.getElementById('editDonorForm').dataset.sno = donor.sno;
 
-            $('#editDonorModal').modal('show');
+            $('#editDonorModal').modal('show'); // jQuery reference remains
         })
         .catch(error => console.error('Error fetching donor details:', error));
 }
@@ -113,7 +113,7 @@ function updateDonor(event) {
         body: JSON.stringify(donorData)
     }).then(response => {
         if (response.ok) {
-            $('#editDonorModal').modal('hide');
+            $('#editDonorModal').modal('hide'); // jQuery reference remains
             fetchDonors();
         } else {
             console.error('Error updating donor');
@@ -137,35 +137,46 @@ function deleteDonor(sno) {
 function sendEmails(event) {
     event.preventDefault();
 
-    const selectedDonors = $('.donorCheckbox:checked').map(function () {
-        return this.value;
-    }).get();
+    const selectedDonors = Array.from(document.querySelectorAll('.donorCheckbox:checked')).map(checkbox => checkbox.value);
 
     if (selectedDonors.length === 0) {
         alert("Please select at least one donor to send an email.");
         return;
     }
 
-    const emailSubject = $('#emailSubject').val();
-    const emailMessage = $('#emailMessage').val();
+    const emailSubject = document.getElementById('emailSubject').value.trim();
+    const emailMessage = document.getElementById('emailMessage').value.trim();
 
-    $.ajax({
-        type: 'POST',
-        url: 'SendEmail',
-        data: {
-            selectedDonors: selectedDonors.join(','),
-            emailSubject: emailSubject,
-            emailMessage: emailMessage
-        },
-        success: function (response) {
-            alert(response);
-            $('#emailModal').modal('hide');
-        },
-        error: function (xhr, status, error) {
-            alert("An error occurred: " + error);
-        }
+    if (!emailSubject) {
+        alert("Please enter an email subject.");
+        return;
+    }
+    if (!emailMessage) {
+        alert("Please enter an email message.");
+        return;
+    }
+
+    // Convert to URL-encoded format
+    const formData = new URLSearchParams();
+    formData.append('selectedDonors', selectedDonors.join(','));
+    formData.append('emailSubject', emailSubject);
+    formData.append('emailMessage', emailMessage);
+
+    fetch('SendEmail', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(responseText => {
+        alert(responseText);
+        $('#emailModal').modal('hide');
+    })
+    .catch(error => {
+        alert("An error occurred: " + error);
     });
 }
+
+
 
 function addDonor(event) {
     event.preventDefault();
@@ -184,7 +195,7 @@ function addDonor(event) {
         body: JSON.stringify(donorData)
     }).then(response => {
         if (response.ok) {
-            $('#addDonorModal').modal('hide');
+            $('#addDonorModal').modal('hide'); // jQuery reference remains
             fetchDonors();
         } else {
             console.error('Error adding donor');

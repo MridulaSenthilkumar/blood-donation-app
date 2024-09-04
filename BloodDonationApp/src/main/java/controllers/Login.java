@@ -16,31 +16,29 @@ public class Login extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idToken = request.getParameter("id_token");
 
-
+        // Check if the token is missing and redirect back to the login page with an error
         if (idToken == null) {
             response.sendRedirect("./index.jsp?error=missing_token");
             return;
         }
 
         try {
-            // Verify and decode the token using the Auth0 Java SDK or manually if needed
-            DecodedJWT jwt = JWT.decode(idToken);  // Simplified example. Use Auth0 Java SDK for full verification
+            // Decode the JWT to extract user information
+            DecodedJWT jwt = JWT.decode(idToken); // Use Auth0 Java SDK for full verification in production
 
+            // Extract user claims from the token
             String username = jwt.getClaim("name").asString();
             String email = jwt.getClaim("email").asString();
-            String userType = jwt.getClaim("userType").asString();
 
+            // Create an HTTP session and store user details
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
             session.setAttribute("email", email);
-            session.setAttribute("userType", userType);
 
-            if ("admin".equalsIgnoreCase(userType)) {
-                response.sendRedirect("./DisplayDonor");
-            } else {
-                response.sendRedirect("./peoplelogin.jsp");
-            }
+            // Redirect the user to the main user page after successful authentication
+            response.sendRedirect("./peoplelogin.jsp");
         } catch (Exception e) {
+            // Handle any exceptions during the decoding process and redirect with an error
             e.printStackTrace();
             response.sendRedirect("./index.jsp?error=invalid_token");
         }
