@@ -46,12 +46,12 @@ public class SendEmail extends HttpServlet {
     }
 
     private void sendEmail(String[] recipients, String subject, String messageText) throws MessagingException {
-        // SMTP configuration
+        // SMTP configurations
         String host = "smtp.gmail.com";
         final String user = "blooddonateinfo@gmail.com";
-        final String password = "kilw cwas ocye evav"; // App-specific password
+        final String password = "kilw cwas ocye evav"; // App-specific password for Gmail
 
-        // Set up properties for the mail session
+        // Setting up properties for the email session
         Properties props = new Properties();
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.port", "587");

@@ -149,6 +149,16 @@
             }
         }
 
+        function handleAuthentication() {
+            lock.on("authenticated", function(authResult) {
+                console.log('Authenticated:', authResult);
+                // Sending the token to login servlet
+                localStorage.setItem('id_token', authResult.idToken);
+                window.location.href = 'http://localhost:8080/BloodDonationApp/Login?id_token=' + authResult.idToken;
+            });
+        }
+        
+        
         function showAdminLogin() {
             console.log('Showing Admin Login Form...');
             document.getElementById('adminLoginForm').classList.add('fade-in');
@@ -164,14 +174,6 @@
             document.getElementById('adminLoginButton').style.display = 'block';
         }
 
-        function handleAuthentication() {
-            lock.on("authenticated", function(authResult) {
-                console.log('Authenticated:', authResult);
-                // Send the token to your server
-                localStorage.setItem('id_token', authResult.idToken);
-                window.location.href = 'http://localhost:8080/BloodDonationApp/Login?id_token=' + authResult.idToken;
-            });
-        }
     </script>
 </head>
 <body>

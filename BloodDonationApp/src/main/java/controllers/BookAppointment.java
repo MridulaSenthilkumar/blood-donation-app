@@ -34,7 +34,7 @@ public class BookAppointment extends HttpServlet {
             dao.saveplasmaAppointment(appointment); // Save to plasma donation table
         }
         else if ("platelet".equals(donationType)) {
-            dao.saveplateletAppointment(appointment); 
+            dao.saveplateletAppointment(appointment); //Save to plasma donation table
         }
 
         response.sendRedirect("Confirmation.jsp");

@@ -19,21 +19,16 @@ public class OrganRegister extends HttpServlet {
     public void init() throws ServletException {
         donorDAO = new DonorDAO();
     }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Collect form data
+        // Collection of form data
         String donorName = request.getParameter("firstName") + " " + request.getParameter("lastName");
         String address = request.getParameter("address");
         String email = request.getParameter("email");
         String phoneNumber = request.getParameter("phone");
         String donationChoice = request.getParameter("donationChoice");
 
-        // Debugging info for server logs
-        System.out.println("Donor Name: " + donorName);
-        System.out.println("Donation Choice: " + donationChoice);
-
-        // Create OrganRegistration object
+        // Creating OrganRegistration object and encapsulation
         OrganRegistration registration = new OrganRegistration();
         registration.setDonorName(donorName);
         registration.setAddress(address);
@@ -41,14 +36,14 @@ public class OrganRegister extends HttpServlet {
         registration.setPhoneNumber(phoneNumber);
         registration.setDonationChoice(donationChoice);
 
-        // Insert into database using DAO
+        // Inserting data into database using DAO
         boolean isSuccess = donorDAO.insertOrganRegistration(registration);
 
-        // Redirect based on success or failure
+        // Redirecting pages based on success or error 
         if (isSuccess) {
             response.sendRedirect("Confirmation.jsp");
         } else {
-            response.sendRedirect("error.jsp");
+            response.sendRedirect("register.jsp");
         }
     }
 }
