@@ -68,7 +68,6 @@
                 <tr>
                     <th>Donor Name</th>
                     <th>Address</th>
-                    <th>Blood Group</th>
                     <th>Email</th>
                     <th>Phone Number</th>
                     <th>Donation Choice</th>
@@ -84,7 +83,6 @@
                     <tr>
                         <td><%= registration.getDonorName() %></td>
                         <td><%= registration.getAddress() %></td>
-                        <td><%= registration.getBloodGroup() %></td>
                         <td><%= registration.getEmail() %></td>
                         <td><%= registration.getPhoneNumber() %></td>
                         <td><%= registration.getDonationChoice() %></td>
