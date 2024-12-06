@@ -9,8 +9,8 @@ import model.Donor;
 import model.OrganRegistration;
 
 public class DonorDAO {
-    private String user = "senthilm";
-    private String password = "seNtrile9";
+    private String user = ""; // Give your Mysql username
+    private String password = ""; // Give your My sql password
     private String url = "jdbc:mysql://mudfoot.doc.stu.mmu.ac.uk:6306/" + user;
 
     private Connection getConnection() throws SQLException {

@@ -48,8 +48,8 @@ public class SendEmail extends HttpServlet {
     private void sendEmail(String[] recipients, String subject, String messageText) throws MessagingException {
         // SMTP configurations
         String host = "smtp.gmail.com";
-        final String user = "blooddonateinfo@gmail.com";
-        final String password = "kilw cwas ocye evav"; // App-specific password for Gmail
+        final String user = "give your user email";
+        final String password = "Give your app specfic password"; // App-specific password for Gmail
 
         // Setting up properties for the email session
         Properties props = new Properties();

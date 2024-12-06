@@ -1,6 +1,6 @@
 
         window.$crisp = [];
-        window.CRISP_WEBSITE_ID = "ec21cd9f-2c08-4f54-844c-0d14c4ed03d1";
+        window.CRISP_WEBSITE_ID = "Give your unique ID that is given to you by the crisp website";
         (function() {
             var d = document;
             var s = d.createElement("script");

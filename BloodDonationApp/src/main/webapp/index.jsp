@@ -124,12 +124,12 @@
         document.addEventListener("DOMContentLoaded", function() {
             console.log('DOM content loaded. Initializing Auth0 Lock...');
             lock = new Auth0Lock(
-                'ZnRj1qFKOIav6Z1zb5ycdBQXtwZtrWtj',
-                'dev-h42pkcp3clbxcoh5.us.auth0.com',
+                'Give your client ID',
+                'Give your Auth0 Domain',
                 {
                     auth: {
                         redirectUrl: 'http://localhost:8080/BloodDonationApp/Login',
-                        responseType: 'token id_token',
+                        responseType: 'token id_token',  
                         params: {
                             scope: 'openid profile email'
                         }

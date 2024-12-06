@@ -12,10 +12,10 @@ import java.sql.SQLException;
 @WebServlet("/AdminLogin")
 public class AdminLogin extends HttpServlet {
     private static final String DB_URL = "jdbc:mysql://mudfoot.doc.stu.mmu.ac.uk:6306/ + DB_USER";
-    private static final String DB_USER = "senthilm"; 
-    private static final String DB_PASSWORD = "seNtrile9"; 
-    private static final String ADMIN_EMAIL = "blooddonateinfo@gmail.com"; 
-    private static final String ADMIN_PASSWORD_HASH = "$2a$10$HI.Dy5ZWNNK3bNJB1P7ZcuvpMeHut/K26/5Zi31J0qiG8FhSn8Weq"; 
+    private static final String DB_USER = ""; 
+    private static final String DB_PASSWORD = ""; 
+    private static final String ADMIN_EMAIL = "Give your email ID"; 
+    private static final String ADMIN_PASSWORD_HASH = "Enter your hased password"; 
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
